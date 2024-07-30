@@ -7,7 +7,7 @@ on:
 
 jobs:
   testapplication:
-    runs-on: self-hosted
+    runs-on: angular-runner-pvt
 
     strategy:
       matrix:
