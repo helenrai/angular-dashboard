@@ -7,10 +7,9 @@ on:
 
 jobs:
   testapplication:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted, Linux, X64] # Match the labels assigned to your runner
     strategy:
       matrix:
-        runner: angular-runner-ubuntu
         node-version: [10.x]
 
     steps:
@@ -21,18 +20,15 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Docker build and push
       run: |
-       docker build -t 3iamlucifer12/testapp -f Dockerfile-multistage .
-       docker push 3iamlucifer12/testapp
+        docker build -t 3iamlucifer12/testapp -f Dockerfile-multistage .
+        docker push 3iamlucifer12/testapp
         
   deploynodeapp:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted, Linux, X64] # Match the labels assigned to your runner
     needs: [testapplication]
-    strategy:
-      matrix:
-        runner: angular-runner-ubuntu
 
     steps:
     - name: Deploy testapp
-      run: | 
-       docker-compose up -d
-       docker ps
+      run: |
+        docker-compose up -d
+        docker ps
