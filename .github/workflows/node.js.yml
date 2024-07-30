@@ -10,7 +10,7 @@ jobs:
     runs-on: [self-hosted]
     strategy:
       matrix:
-        runner: [angular-runner-pvt, angular-runner-pvt-spot]
+        runner: angular-runner-ubuntu
         node-version: [10.x]
 
     steps:
@@ -29,7 +29,7 @@ jobs:
     needs: [testapplication]
     strategy:
       matrix:
-        runner: [angular-runner-pvt, angular-runner-pvt-spot]
+        runner: angular-runner-ubuntu
 
     steps:
     - name: Deploy testapp
