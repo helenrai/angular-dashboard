@@ -7,10 +7,10 @@ on:
 
 jobs:
   testapplication:
-    runs-on: ["angular-runner-pvt", "angular-runner-pvt-spot"]
-
+    runs-on: [self-hosted]
     strategy:
       matrix:
+        runner: [angular-runner-pvt, angular-runner-pvt-spot]
         node-version: [10.x]
 
     steps:
@@ -19,19 +19,20 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: docker build and push
+    - name: Docker build and push
       run: |
        docker build -t 3iamlucifer12/testapp -f Dockerfile-multistage .
        docker push 3iamlucifer12/testapp
         
-  
   deploynodeapp:
+    runs-on: [self-hosted]
     needs: [testapplication]
-    runs-on: self-hosted
+    strategy:
+      matrix:
+        runner: [angular-runner-pvt, angular-runner-pvt-spot]
 
     steps:
     - name: Deploy testapp
       run: | 
        docker-compose up -d
        docker ps
-     
