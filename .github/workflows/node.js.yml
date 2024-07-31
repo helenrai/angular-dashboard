@@ -6,15 +6,12 @@ on:
       - master
 
 jobs:
-  testapplication:
-    strategy:
-      matrix:
-        runner: [ubuntu, spot-runner] # Define labels or environments
+  testapplication-ubuntu:
     runs-on:
       - self-hosted
       - Linux
       - X64
-      - ${{ matrix.runner }} # Use matrix values here
+      - ubuntu # Label specific to the 'angular-runner-ubuntu'
 
     steps:
     - uses: actions/checkout@v2
@@ -26,17 +23,32 @@ jobs:
       run: |
         docker build -t 3iamlucifer12/testapp -f Dockerfile-multistage .
         docker push 3iamlucifer12/testapp
-        
-  deploynodeapp:
-    needs: [testapplication]
-    strategy:
-      matrix:
-        runner: [ubuntu, spot-runner] # Define labels or environments
+
+  testapplication-spot:
     runs-on:
       - self-hosted
       - Linux
       - X64
-      - ${{ matrix.runner }} # Use matrix values here
+      - spot-runner # Label specific to the 'spot-runner-ip-10-42-1-231'
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: Docker build and push
+      run: |
+        docker build -t 3iamlucifer12/testapp -f Dockerfile-multistage .
+        docker push 3iamlucifer12/testapp
+
+  deploynodeapp:
+    needs: [testapplication-ubuntu, testapplication-spot]
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+      - ubuntu # Or use a common label if applicable
 
     steps:
     - name: Deploy testapp
