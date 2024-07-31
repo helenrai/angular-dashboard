@@ -1,0 +1,33 @@
+name: TestConcurrentRunners
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test-ubuntu:
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+      - ubuntu # Label specific to the 'angular-runner-ubuntu'
+
+    steps:
+    - name: Test Ubuntu Runner
+      run: |
+        echo "Running on ubuntu runner"
+        date
+
+  test-spot:
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+      - spot-runner # Label specific to the 'spot-runner-ip-10-42-1-231'
+
+    steps:
+    - name: Test Spot Runner
+      run: |
+        echo "Running on spot runner"
+        date
