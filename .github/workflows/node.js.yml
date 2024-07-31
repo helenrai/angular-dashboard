@@ -8,7 +8,7 @@ on:
 jobs:
   testapplication:
     runs-on:
-      - self-hosted
+      - self-hosted #
       - Linux
       - X64
       - ubuntu
