@@ -7,7 +7,7 @@ on:
 
 jobs:
   testapplication:
-    runs-on: [self-hosted, linux, x64, angular-runner] # Match the labels assigned to your runner
+    runs-on: [self-hosted, linux, x64] # Match the labels assigned to your runner
     strategy:
       matrix:
         node-version: [10.x]
