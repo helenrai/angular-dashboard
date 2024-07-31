@@ -24,7 +24,7 @@ jobs:
       - self-hosted
       - Linux
       - X64
-      - spot-runner # Label specific to the 'spot-runner-ip-10-42-1-231'
+      - spot-runner-ip-10-42-1-231 # Label specific to the 'spot-runner-ip-10-42-1-231'
 
     steps:
     - name: Test Spot Runner
