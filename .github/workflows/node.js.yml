@@ -7,7 +7,11 @@ on:
 
 jobs:
   testapplication:
-    runs-on: [self-hosted, Linux, x64, ubuntu] # Match the labels assigned to your runner
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+      - ubuntu
     strategy:
       matrix:
         node-version: [10.x]
@@ -24,7 +28,11 @@ jobs:
         docker push 3iamlucifer12/testapp
         
   deploynodeapp:
-    runs-on: [self-hosted, Linux, X64] # Match the labels assigned to your runner
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+      - ubuntu
     needs: [testapplication]
 
     steps:
