@@ -7,33 +7,36 @@ on:
 
 jobs:
   testapplication:
-    runs-on:
-      - self-hosted #
-      - Linux
-      - X64
-      - ubuntu
     strategy:
       matrix:
-        node-version: [10.x]
+        runner: [ubuntu, spot-runner] # Define labels or environments
+    runs-on:
+      - self-hosted
+      - Linux
+      - X64
+      - ${{ matrix.runner }} # Use matrix values here
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 10.x
     - name: Docker build and push
       run: |
         docker build -t 3iamlucifer12/testapp -f Dockerfile-multistage .
         docker push 3iamlucifer12/testapp
         
   deploynodeapp:
+    needs: [testapplication]
+    strategy:
+      matrix:
+        runner: [ubuntu, spot-runner] # Define labels or environments
     runs-on:
       - self-hosted
       - Linux
       - X64
-      - ubuntu
-    needs: [testapplication]
+      - ${{ matrix.runner }} # Use matrix values here
 
     steps:
     - name: Deploy testapp
